@@ -9,3 +9,21 @@
 .fc .fc-timegrid-slot {
   height: 3em;
 }
+
+.container{
+  border: 1px solid red;
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.calendar{
+  border: 1px solid red;
+  padding: 1%;
+}
+
+.timegrid{
+  border: 1px solid red;
+  padding: 1%;
+  flex: 1;
+}
