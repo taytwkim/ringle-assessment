@@ -2,6 +2,11 @@
   font-family: sans-serif;
 }
 
+body{
+  margin: 0;
+  padding: 0;
+}
+
 :root {
   --fc-today-bg-color: inherit !important;
 }
@@ -11,19 +16,20 @@
 }
 
 .container{
-  border: 1px solid red;
   display: flex;
   flex-direction: row;
   height: 100vh;
 }
 
 .calendar{
-  border: 1px solid red;
   padding: 1%;
 }
 
 .timegrid{
-  border: 1px solid red;
   padding: 1%;
   flex: 1;
+}
+
+.list{
+  padding: 1%;
 }

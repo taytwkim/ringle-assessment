@@ -2,7 +2,7 @@ import React from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction'
-import './App.css';
+import '../App.css';
 
 export default function TimeGrid(){ 
   const today = new Date()
@@ -23,8 +23,10 @@ export default function TimeGrid(){
         plugins={[ interactionPlugin, timeGridPlugin ]}
         initialView='timeGrid'
         headerToolbar={{
+          left: 'today prev,next',
           right: ''
         }}
+        locale={'ko'}
         allDaySlot={false}
         visibleRange={{
           start: rangeStart, 

@@ -1,6 +1,5 @@
-import Reserve from './Reserve.js';
+import Reserve from './Components/Reserve.js';
 import './App.css';
-import './tailwind.css'
 
 function App() {
   return (
