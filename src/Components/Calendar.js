@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { format, startOfWeek, endOfWeek } from 'date-fns';
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { startOfWeek, endOfWeek } from 'date-fns';
 import { ko } from "date-fns/locale";
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
@@ -11,28 +12,33 @@ function getWeekDays(date){
   }
 }
 
-export default function Calendar() {
+export default function Calendar(props) {
   const today = new Date();
-  const defaultSelected = getWeekDays(today);
-  const [range, setRange] = useState(defaultSelected);
+  const [month, setMonth] = useState(today);
+
+  useEffect(()=>{
+		setMonth(props.viewRange.from)
+	}, [props.viewRange]);
 
   function handleDayChange(date){
-    setRange(getWeekDays(date));
+    props.setViewRange(getWeekDays(date));
   }
   
-  let footer = <p>Please pick the start date.</p>;
+  // let footer = <p>Please pick the start date.</p>;
 
-  if (range?.from) {
-    if (!range.to) {
-      footer = <p>{format(range.from, 'PPP')}</p>;
-    } else if (range.to) {
+  /*
+  if (props.viewRange?.from) {
+    if (!props.viewRange.to) {
+      footer = <p>{format(props.viewRange.from, 'PPP')}</p>;
+    } else if (props.viewRange.to) {
       footer = (
         <p>
-          {format(range.from, 'PPP')}–{format(range.to, 'PPP')}
+          {format(props.viewRange.from, 'PPP')}–{format(props.viewRange.to, 'PPP')}
         </p>
       );
     }
   }
+  */
 
   return (
     <DayPicker
@@ -40,10 +46,12 @@ export default function Calendar() {
       showOutsideDays
       locale={ko}
       fromDate={today}
+      month={month}
+      onMonthChange={setMonth}
       mode="range"
-      selected={range}
+      selected={props.viewRange}
       onDayClick={handleDayChange}
-      footer={footer}
+      // footer={footer}
     />
   );
 }

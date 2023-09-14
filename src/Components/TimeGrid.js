@@ -1,14 +1,29 @@
-import React from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction'
+import interactionPlugin from '@fullcalendar/interaction';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { startOfWeek, endOfWeek, addDays } from 'date-fns';
 import '../App.css';
 
-export default function TimeGrid(){ 
-  const today = new Date()
-  let rangeStart = '2023-09-10';
-  let rangeEnd = '2023-09-17';
-  
+function getWeekDays(date){
+  return {
+    from: startOfWeek(date),
+    to: endOfWeek(date)
+  }
+}
+
+export default function TimeGrid(props){ 
+  const today = useMemo(() => new Date(), []);
+  const [isThisWeek, setIsThisWeek] = useState(props.viewRange.from <= today && today <= props.viewRange.to)
+
+  useEffect(()=>{
+		setIsThisWeek(props.viewRange.from <= today && today <= props.viewRange.to)
+	}, [props.viewRange.from, props.viewRange.to, today]);
+
   function selectAllow(selectInfo){
     return today < selectInfo.start && today < selectInfo.end
   }
@@ -17,20 +32,38 @@ export default function TimeGrid(){
     alert('selected ' + info.startStr + ' to ' + info.endStr);
   }
   
+  const handlePrevButton = (event) => {
+    props.setViewRange(getWeekDays(addDays(props.viewRange.from, -7)));
+  };
+
+  const handleTodayButton = (event) => {
+    props.setViewRange(getWeekDays(today));
+  };
+
+  const handleNextButton = (event) => {
+    props.setViewRange(getWeekDays(addDays(props.viewRange.from, 7)));
+  };
+  
   return (
     <div>
+      <ButtonGroup variant="outlined" aria-label="outlined button group">
+        <Button onClick={handlePrevButton} disabled={isThisWeek}><ArrowBackIosNewIcon/></Button>
+        <Button onClick={handleTodayButton}>오늘</Button>
+        <Button onClick={handleNextButton}><ArrowForwardIosIcon/></Button>
+      </ButtonGroup>
+      
       <FullCalendar
         plugins={[ interactionPlugin, timeGridPlugin ]}
         initialView='timeGrid'
         headerToolbar={{
-          left: 'today prev,next',
+          left: '',
           right: ''
         }}
         locale={'ko'}
         allDaySlot={false}
         visibleRange={{
-          start: rangeStart, 
-          end: rangeEnd
+          start: props.viewRange.from, 
+          end: props.viewRange.to
         }}
         validRange={{ 
           start: today 

@@ -111,6 +111,9 @@ export default function AlignItemsList() {
                 <Typography variant='body2'>
                   Japanese and Korean Studies
                 </Typography>
+                <Typography variant='body2'>
+                  수락율: 100%
+                </Typography>
               </React.Fragment>
             }
           />
@@ -136,6 +139,9 @@ export default function AlignItemsList() {
                 <Typography variant='body2'>
                   Ethnicity, Race, and Migration
                 </Typography>
+                <Typography variant='body2'>
+                  수락율: 100%
+                </Typography>
               </React.Fragment>
             }
           />
@@ -160,6 +166,9 @@ export default function AlignItemsList() {
                 </Typography>
                 <Typography variant='body2'>
                   Finance
+                </Typography>
+                <Typography variant='body2'>
+                  수락율: 100%
                 </Typography>
               </React.Fragment>
             }
