@@ -29,7 +29,10 @@ export default function TimeGrid(props){
   }
   
   function handleSelect(info){
-    alert('selected ' + info.startStr + ' to ' + info.endStr);
+    props.setSelectedRange({
+      from: new Date(info.startStr),
+      to: new Date(info.endStr)
+    })
   }
   
   const handlePrevButton = (event) => {

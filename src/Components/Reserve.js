@@ -2,8 +2,8 @@ import { useState } from 'react';
 import Navbar from './Navbar'
 import Calendar from './Calendar.js';
 import TimeGrid from './TimeGrid.js';
-import List from './List.js';
 import { startOfWeek, endOfWeek } from 'date-fns';
+import TutorsList from './List.js';
 
 function getWeekDays(date){
   return {
@@ -15,8 +15,9 @@ function getWeekDays(date){
 export default function Reserve(){
   const today = new Date();
   const [viewRange, setViewRange] = useState(getWeekDays(today));
-  const [selectedRange, setSelectedRange] = useState();
-
+  const [selected, setSelected] = useState(false)
+  const [selectedRange, setSelectedRange] = useState({from: today, to: today});
+  
   return(
     <div>
       <Navbar/>
@@ -40,7 +41,12 @@ export default function Reserve(){
         </div>
         
         <div className='list'>
-          <List/>
+          <TutorsList
+            viewRange={viewRange}
+            setViewRange={setViewRange} 
+            selectedRange={selectedRange} 
+            setSelectedRange={setSelectedRange}
+          />
         </div>
       </div>
     </div>

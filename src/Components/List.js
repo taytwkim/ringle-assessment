@@ -13,8 +13,10 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { format } from 'date-fns';
+import koLocale from 'date-fns/locale/ko';
 
-export default function AlignItemsList() {
+export default function TutorsList(props) {
   const [age, setAge] = React.useState('');
 
   const handleChange = (event) => {
@@ -23,7 +25,7 @@ export default function AlignItemsList() {
 
   return (
     <div>
-      <Typography variant='h6'>10월 20일(수) 오전 05:00</Typography>
+      <Typography variant='h6'>{format(props.selectedRange.from, 'PPP EEE p', { locale: koLocale })}</Typography>
       <Divider sx={{marginBottom:2}} variant="fullWidth"/>
 
       <Typography variant='h7'>튜터 직접 선택</Typography>
