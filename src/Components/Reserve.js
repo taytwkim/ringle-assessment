@@ -18,7 +18,7 @@ export default function Reserve(){
   const [viewRange, setViewRange] = useState(getWeekDays(today));
   const [selected, setSelected] = useState(false)
   const [selectedRange, setSelectedRange] = useState({from: today, to: today});
-  
+
   return(
     <div>
       <Navbar/>

@@ -8,6 +8,8 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { startOfWeek, endOfWeek, addDays } from 'date-fns';
 import '../App.css';
+import { useSelector } from 'react-redux'
+
 
 function getWeekDays(date){
   return {
@@ -25,6 +27,8 @@ export default function TimeGrid(props){
     start: '2023-09-16T10:00:00',
     end: '2023-09-16T12:00:00',
   }])
+
+  const count = useSelector((state) => state.user.num_lessons_20)
 
   useEffect(()=>{
 		setIsThisWeek(props.viewRange.from <= today && today <= props.viewRange.to)
@@ -57,6 +61,8 @@ export default function TimeGrid(props){
   
   return (
     <div>
+      <p>hello {count}</p>
+      
       <ButtonGroup variant="outlined" aria-label="outlined button group">
         <Button onClick={handlePrevButton} disabled={isThisWeek}><ArrowBackIosNewIcon/></Button>
         <Button onClick={handleTodayButton}>오늘</Button>
