@@ -1,7 +1,8 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Typography from '@mui/material/Typography';
@@ -11,6 +12,8 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { startOfWeek, endOfWeek, addDays } from 'date-fns';
 import { useSelector } from 'react-redux'
+import koLocale from 'date-fns/locale/ko';
+import { format } from 'date-fns';
 import '../App.css';
 
 // Return the start and end dates of the week
@@ -21,29 +24,15 @@ function getWeekDays(date){
   }
 }
 
-// Return a list of FullCalendar events
-function getEvents(reservedLessons){
-  let events = []
-  
-  for (let i = 0; i < reservedLessons.length; i++) {
-    events.push({
-      id: reservedLessons[i].eventID,
-      title: "예약 완료",
-      start: reservedLessons[i].start,
-      end: reservedLessons[i].end
-    })
-  }
-  return events
-}
-
 export default function TimeGrid(props){ 
-  const reservedLessons = useSelector((state) => state.user.reservedLessons)
+  const calendarRef = useRef(null);
+  const reservedLessons = useSelector((state) => state.user.reservedLessons);
 
   const today = useMemo(() => new Date(), []);
-  const [isThisWeek, setIsThisWeek] = useState(props.viewRange.from <= today && today <= props.viewRange.to) //if the displayed week is the current week
+  const [isThisWeek, setIsThisWeek] = useState(props.viewRange.from <= today && today <= props.viewRange.to); //if the displayed week is the current week
   
   const [openModal, setOpenModal] = useState(false);
-  const [clickedEventID, setClickedEventID] = useState();
+  const [clickedEvent, setClickedEvent] = useState();
 
   useEffect(()=>{
 		setIsThisWeek(props.viewRange.from <= today && today <= props.viewRange.to)
@@ -55,16 +44,18 @@ export default function TimeGrid(props){
   }
   
   function handleSelect(info){
+    const startTime = new Date(info.startStr);
+    const endTime = new Date(info.endStr);
+
     props.setSelected(true)
     props.setSelectedRange({
-      from: new Date(info.startStr),
-      to: new Date(info.endStr)
+      from: startTime,
+      to: endTime
     })
   }
   
   function handleEventClick(info){
-    console.log(info.event)
-    setClickedEventID(info.event.id)
+    setClickedEvent(info.event)
     setOpenModal(true)
   }
 
@@ -82,7 +73,7 @@ export default function TimeGrid(props){
   
   return (
     <div>
-      <BasicModal clickedEventID={clickedEventID} openModal={openModal} setOpenModal={setOpenModal}/>
+      <BasicModal clickedEvent={clickedEvent} openModal={openModal} setOpenModal={setOpenModal}/>
 
       <ButtonGroup variant="outlined" aria-label="outlined button group">
         <Button onClick={handlePrevButton} disabled={isThisWeek}><ArrowBackIosNewIcon/></Button>
@@ -91,6 +82,7 @@ export default function TimeGrid(props){
       </ButtonGroup>
       
       <FullCalendar
+        ref={calendarRef}
         plugins={[ interactionPlugin, timeGridPlugin ]}
         initialView='timeGrid'
         headerToolbar={{
@@ -103,17 +95,18 @@ export default function TimeGrid(props){
           start: props.viewRange.from, 
           end: props.viewRange.to
         }}
+        scrollTimeReset={false}
         validRange={{ 
           start: today 
         }}
-        slotDuration={'1:00:00'}
+        slotDuration={'0:30:00'}
         snapDuration={'1:00:00'} // change to 30 min
         selectable={true}
         selectOverlap={false}
         selectAllow={selectAllow}
         select={handleSelect}
-        events={getEvents(reservedLessons)}
-        displayEventEnd={false}
+        events={reservedLessons}
+        displayEventEnd={false}s
         eventClick={handleEventClick}
       />
     </div>
@@ -133,7 +126,8 @@ const modalStyle = {
 };
 
 function BasicModal(props){
-  const reservedLessons = useSelector((state) => state.user.reservedLessons)
+  const reservedLessons = useSelector((state) => state.user.reservedLessons);
+  console.log(props.clickedEvent)
 
   return(
     <div>
@@ -144,9 +138,34 @@ function BasicModal(props){
       aria-describedby="modal-modal-description"
     >
       <Box sx={modalStyle}>
-        <Typography id="modal-modal-description">
+        { 
+          props.openModal
+          ? <> 
+            <Typography id="modal-modal-description" sx={{mb: 1}}>
+              {format(props.clickedEvent.start, 'PPP EEE p', { locale: koLocale })}
+            </Typography>
+            <Typography id="modal-modal-description" sx={{mb: 1}}>
+              {props.clickedEvent.extendedProps.tutorName}
+            </Typography>
+          </>
+          : <></>
+        }
+        <Typography id="modal-modal-description" sx={{mb: 2}}>
           이 수업을 삭제하시겠습니까?
         </Typography>
+        
+        <Stack spacing={2} direction="row" justifyContent="flex-end">
+          <Button variant="outlined" onClick={()=>{
+            props.setOpenModal(false)
+          }}>
+            취소
+          </Button>
+          <Button variant="outlined" color='error' onClick={()=>{
+
+          }}>
+            삭제
+          </Button>
+        </Stack>
       </Box>
     </Modal>
   </div>
