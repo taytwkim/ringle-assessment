@@ -17,24 +17,32 @@ function getWeekDays(date){
 }
 
 export default function TimeGrid(props){ 
-  const today = useMemo(() => new Date(), []);
-  const [isThisWeek, setIsThisWeek] = useState(props.viewRange.from <= today && today <= props.viewRange.to)
+  const today = useMemo(() => new Date(), []); // today's date
+  const [isThisWeek, setIsThisWeek] = useState(props.viewRange.from <= today && today <= props.viewRange.to) //if the displayed week is the current week
+  const [events, setEvents] = useState([{
+    id: '1',
+    title: 'Existing Event',
+    start: '2023-09-16T10:00:00',
+    end: '2023-09-16T12:00:00',
+  }])
 
   useEffect(()=>{
 		setIsThisWeek(props.viewRange.from <= today && today <= props.viewRange.to)
 	}, [props.viewRange.from, props.viewRange.to, today]);
 
+  //disable select past dates
   function selectAllow(selectInfo){
     return today < selectInfo.start && today < selectInfo.end
   }
   
   function handleSelect(info){
+    props.setSelected(true)
     props.setSelectedRange({
       from: new Date(info.startStr),
       to: new Date(info.endStr)
     })
   }
-  
+
   const handlePrevButton = (event) => {
     props.setViewRange(getWeekDays(addDays(props.viewRange.from, -7)));
   };
@@ -77,6 +85,7 @@ export default function TimeGrid(props){
         selectOverlap={false}
         selectAllow={selectAllow}
         select={handleSelect}
+        events={events}
       />
     </div>
   )
