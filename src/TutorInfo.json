@@ -8,7 +8,7 @@
     "gender": "M",
     "accent": "British",
     "acceptanceRate": 100,
-    "available": []
+    "reservedLessons": []
   },
   {
     "tutorID": 1,
@@ -19,7 +19,7 @@
     "gender": "M",
     "accent": "American",
     "acceptanceRate": 100,
-    "available": []
+    "reservedLessons": []
   },
   {
     "tutorID": 2,
@@ -30,6 +30,6 @@
     "gender": "F",
     "accent": "American",
     "acceptanceRate": 100,
-    "available": []
+    "reserveLessons": []
   }
 ]

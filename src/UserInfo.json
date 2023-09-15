@@ -1,6 +1,12 @@
 {
-  "userId": 0,
-  "num_lessons_20": 1,
-  "num_lessons_40": 1,
-  "reserved_lessons": []
+  "userID": 0,
+  "numLessons20": 1,
+  "numLessons40": 1,
+  "reservedLessons": [{
+    "eventID": 0,
+    "userID": 0,
+    "tutorID": 0,
+    "start": "2023-09-16T10:00:00",
+    "end": "2023-09-16T12:00:00"
+  }]
 }

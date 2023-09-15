@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -15,14 +16,31 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { format } from 'date-fns';
 import koLocale from 'date-fns/locale/ko';
+import { useSelector } from 'react-redux'
 
 export default function TutorsList(props) {
-  const [age, setAge] = React.useState('');
+  const tutors = useSelector((state) => state.tutor);
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
+  const [gender, setGender] = useState("");
+  const [accent, setAccent] = useState("");
+  const [majorType, setMajorType] = useState("");
+
+  const handleGenderChange = (event) => {
+    setGender(event.target.value);
+  };
+  
+  const handleAccentChange = (event) => {
+    setAccent(event.target.value);
+  };
+  
+  const handleMajorTypeChange = (event) => {
+    setMajorType(event.target.value);
   };
 
+  const handleTutorClick = () => {
+    alert("reservation made")
+  };
+  
   return (
     <div>
       <Typography variant='h6'>{format(props.selectedRange.from, 'PPP EEE p', { locale: koLocale })}</Typography>
@@ -37,13 +55,13 @@ export default function TutorsList(props) {
             sx = {{height: 50}}
             labelId="demo-simple-select-disabled-label"
             id="demo-simple-select-disabled"
-            value={age}
-            label="Age"
-            onChange={handleChange}
+            value={gender}
+            label="Gender"
+            onChange={handleGenderChange}
           >
-            <MenuItem value={10}>상관없음</MenuItem>
-            <MenuItem value={20}>여자</MenuItem>
-            <MenuItem value={30}>남자</MenuItem>
+            <MenuItem value={0}>상관없음</MenuItem>
+            <MenuItem value={1}>여자</MenuItem>
+            <MenuItem value={2}>남자</MenuItem>
           </Select>
         </FormControl>
 
@@ -53,13 +71,13 @@ export default function TutorsList(props) {
             sx = {{height: 50}}
             labelId="demo-simple-select-error-label"
             id="demo-simple-select-error"
-            value={age}
-            label="Age"
-            onChange={handleChange}
+            value={accent}
+            label="Accent"
+            onChange={handleAccentChange}
           >
-            <MenuItem value={10}>상관없음</MenuItem>
-            <MenuItem value={20}>미국식</MenuItem>
-            <MenuItem value={30}>영국식</MenuItem>
+            <MenuItem value={0}>상관없음</MenuItem>
+            <MenuItem value={1}>미국식</MenuItem>
+            <MenuItem value={2}>영국식</MenuItem>
           </Select>
         </FormControl>
 
@@ -69,16 +87,16 @@ export default function TutorsList(props) {
             sx = {{height: 50}}
             labelId="demo-simple-select-readonly-label"
             id="demo-simple-select-readonly"
-            value={age}
-            label="Age"
-            onChange={handleChange}
+            value={majorType}
+            label="Major Type"
+            onChange={handleMajorTypeChange}
           >
-            <MenuItem value={10}>상관없음</MenuItem>
-            <MenuItem value={20}>사회과학경영</MenuItem>
-            <MenuItem value={30}>인문계</MenuItem>
-            <MenuItem value={20}>공과계열</MenuItem>
-            <MenuItem value={30}>자연과학계열</MenuItem>
-            <MenuItem value={30}>예체능</MenuItem>
+            <MenuItem value={0}>상관없음</MenuItem>
+            <MenuItem value={1}>사회과학경영</MenuItem>
+            <MenuItem value={2}>인문계</MenuItem>
+            <MenuItem value={3}>공과계열</MenuItem>
+            <MenuItem value={4}>자연과학계열</MenuItem>
+            <MenuItem value={5}>예체능</MenuItem>
           </Select>
         </FormControl>
       </Box>
@@ -94,88 +112,41 @@ export default function TutorsList(props) {
       <Typography variant='body2' sx={{marginTop:2}}>선택한 시간에 수업 가능한 튜터들입니다.</Typography>
 
       <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar>
-            <Avatar alt="Dominic" src="/static/images/avatar/1.jpg" />
-          </ListItemAvatar>
-          <ListItemText
-            primary="Dominic"
-            secondary={
-              <React.Fragment>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary"
-                >
-                  University of Oxford
-                </Typography>
-                <Typography variant='body2'>
-                  Japanese and Korean Studies
-                </Typography>
-                <Typography variant='body2'>
-                  수락율: 100%
-                </Typography>
-              </React.Fragment>
-            }
-          />
-        </ListItem>
-        <Divider variant="fullWidth" component="li" />
-
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar>
-            <Avatar alt="Bao" src="/static/images/avatar/2.jpg" />
-          </ListItemAvatar>
-          <ListItemText
-            primary="Bao"
-            secondary={
-              <React.Fragment>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary"
-                >
-                  Yale University
-                </Typography>
-                <Typography variant='body2'>
-                  Ethnicity, Race, and Migration
-                </Typography>
-                <Typography variant='body2'>
-                  수락율: 100%
-                </Typography>
-              </React.Fragment>
-            }
-          />
-        </ListItem>
-        <Divider variant="fullWidth" component="li" />
-
-        <ListItem alignItems="flex-start">
-          <ListItemAvatar>
-            <Avatar alt="Aadhya" src="/static/images/avatar/3.jpg" />
-          </ListItemAvatar>
-          <ListItemText
-            primary="Aadhya"
-            secondary={
-              <React.Fragment>
-                <Typography
-                  sx={{ display: 'inline' }}
-                  component="span"
-                  variant="body2"
-                  color="text.primary"
-                >
-                  New York University
-                </Typography>
-                <Typography variant='body2'>
-                  Finance
-                </Typography>
-                <Typography variant='body2'>
-                  수락율: 100%
-                </Typography>
-              </React.Fragment>
-            }
-          />
-        </ListItem>
+        {
+        tutors.map(function(tutor, i){
+          return(
+            <>
+              <ListItem alignItems="flex-start" onClick={handleTutorClick} sx={{ '&:hover': { backgroundColor: '#f0f0f0' }, cursor: 'pointer'}}>
+                <ListItemAvatar>
+                  <Avatar alt={tutor.name} src="/static/images/avatar/1.jpg" />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={tutor.name}
+                  secondary={
+                    <React.Fragment>
+                      <Typography
+                        sx={{ display: 'inline' }}
+                        component="span"
+                        variant="body2"
+                        color="text.primary"
+                      >
+                        {tutor.school}
+                      </Typography>
+                      <Typography variant='body2'>
+                        {tutor.major}
+                      </Typography>
+                      <Typography variant='body2'>
+                        수락율: {tutor.acceptanceRate}%
+                      </Typography>
+                    </React.Fragment>
+                  }
+                />
+              </ListItem>
+              <Divider variant="fullWidth" component="li" />
+            </>
+          )
+        })
+        }
       </List>
     </div>
   );

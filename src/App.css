@@ -15,6 +15,10 @@ body{
   height: 3em;
 }
 
+.fc-event-main {
+  cursor: pointer;
+}
+
 .container{
   display: flex;
   flex-direction: row;

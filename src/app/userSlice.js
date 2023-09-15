@@ -1,27 +1,32 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const userInitialState = require("../UserInfo.json");
-console.log(userInitialState.num_lessons_20)
 
 export const userSlice = createSlice({
   name: 'user',
   initialState: userInitialState,
   reducers: {
     increment20: (state) => {
-      state.num_20_lessons += 1
+      state.numLessons20 += 1
     },
     decrement20: (state) => {
-      state.num_20_lessons -= 1
+      state.numLessons20 -= 1
     },
     increment40: (state) => {
-      state.num_40_lessons += 1
+      state.numLessons40 += 1
     },
     decrement40: (state) => {
-      state.num_40_lessons -= 1
+      state.numLessons40 -= 1
     },
+    addReserved: (state, action) => {
+      state.reservedLessons.append(action.payload)
+    },
+    deleteReserved: (state, action) => {
+      
+    }
   },
 })
 
-export const { increment20, decrement20, increment40, decrement40 } = userSlice.actions
+export const { increment20, decrement20, increment40, decrement40, addReserved, deleteReserved } = userSlice.actions
 
 export default userSlice.reducer
