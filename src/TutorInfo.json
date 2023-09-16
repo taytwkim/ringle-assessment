@@ -1,6 +1,6 @@
 [
   {
-    "tutorID": 0,
+    "tutorID": "T0001",
     "name": "Dominic",
     "school": "University of Oxford",
     "majorType": "인문계",
@@ -11,7 +11,7 @@
     "reservedLessons": []
   },
   {
-    "tutorID": 1,
+    "tutorID": "T0002",
     "name": "Bao",
     "school": "Yale University",
     "majorType": "인문계",
@@ -22,7 +22,7 @@
     "reservedLessons": []
   },
   {
-    "tutorID": 2,
+    "tutorID": "T0003",
     "name": "Aadhya",
     "school": "New York University",
     "majorType": "사회과학경영",

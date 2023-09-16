@@ -9,12 +9,14 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { useSelector } from 'react-redux';
 
-export default function Navbar() {
-  const [lessonType, setLessonType] = React.useState(20);
+export default function Navbar(props) {
+  const num20 = useSelector((state) => state.user.numLessons20);
+  const num40 = useSelector((state) => state.user.numLessons40);
   
   const handleChange = (event) => {
-    setLessonType(event.target.value);
+    props.setEventType(event.target.value);
   };
 
   return (
@@ -34,12 +36,12 @@ export default function Navbar() {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={lessonType}
-                label="lessonType"
+                value={props.eventType}
+                label="eventType"
                 onChange={handleChange}
               >
-                <MenuItem value={20}>1회 패키지 <Box component="span" sx={{backgroundColor: "#E4F1FF", padding: 0.5, borderRadius: 1.5, color: '#279EFF', ml:.5, mr:.5}}>20분</Box> (1회 남음)</MenuItem>
-                <MenuItem value={40}>1회 패키지 <Box component="span" sx={{backgroundColor: "#DDF7E3", padding: 0.5, borderRadius: 1.5, color: '#5D9C59', ml:.5, mr:.5}}>40분</Box> (1회 남음)</MenuItem>
+                <MenuItem value={20}>1회 패키지 <Box component="span" sx={{backgroundColor: "#E4F1FF", padding: 0.5, borderRadius: 1.5, color: '#279EFF', ml:.5, mr:.5}}>20분</Box> ({num20}회 남음)</MenuItem>
+                <MenuItem value={40}>1회 패키지 <Box component="span" sx={{backgroundColor: "#DDF7E3", padding: 0.5, borderRadius: 1.5, color: '#5D9C59', ml:.5, mr:.5}}>40분</Box> ({num40}회 남음)</MenuItem>
               </Select>
             </FormControl>
           </Box>

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -11,10 +11,11 @@ import Box from '@mui/material/Box';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { startOfWeek, endOfWeek, addDays } from 'date-fns';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import koLocale from 'date-fns/locale/ko';
 import { format } from 'date-fns';
 import '../App.css';
+import { increment20, deleteReserved, increment40 } from '../app/userSlice';
 
 // Return the start and end dates of the week
 function getWeekDays(date){
@@ -25,7 +26,6 @@ function getWeekDays(date){
 }
 
 export default function TimeGrid(props){ 
-  const calendarRef = useRef(null);
   const reservedLessons = useSelector((state) => state.user.reservedLessons);
 
   const today = useMemo(() => new Date(), []);
@@ -82,7 +82,6 @@ export default function TimeGrid(props){
       </ButtonGroup>
       
       <FullCalendar
-        ref={calendarRef}
         plugins={[ interactionPlugin, timeGridPlugin ]}
         initialView='timeGrid'
         headerToolbar={{
@@ -126,8 +125,7 @@ const modalStyle = {
 };
 
 function BasicModal(props){
-  const reservedLessons = useSelector((state) => state.user.reservedLessons);
-  console.log(props.clickedEvent)
+  const dispatch = useDispatch()
 
   return(
     <div>
@@ -161,7 +159,14 @@ function BasicModal(props){
             취소
           </Button>
           <Button variant="outlined" color='error' onClick={()=>{
-
+            if(props.clickedEvent.extendedProps.eventType === 20){
+              dispatch(increment20())
+            }
+            else if (props.clickedEvent.extendedProps.eventType === 40){
+              dispatch(increment40())
+            }
+            dispatch(deleteReserved(props.clickedEvent.extendedProps.eventID))
+            props.setOpenModal(false)
           }}>
             삭제
           </Button>

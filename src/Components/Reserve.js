@@ -15,13 +15,17 @@ function getWeekDays(date){
 
 export default function Reserve(){
   const today = new Date();
+  const [eventType, setEventType] = useState(20)
   const [viewRange, setViewRange] = useState(getWeekDays(today));
   const [selected, setSelected] = useState(false)
   const [selectedRange, setSelectedRange] = useState({from: today, to: today});
 
   return(
     <div>
-      <Navbar/>
+      <Navbar
+        eventType={eventType}
+        setEventType={setEventType}
+      />
       <div className='container'>
         <div className='calendar'>
           <Calendar 
@@ -46,9 +50,11 @@ export default function Reserve(){
           {
             selected
             ? <TutorsList
+              eventType={eventType}
+              setEventType={setEventType}
               viewRange={viewRange}
-              setViewRange={setViewRange} 
-              selectedRange={selectedRange} 
+              setViewRange={setViewRange}
+              selectedRange={selectedRange}
               setSelectedRange={setSelectedRange}
             />
             :

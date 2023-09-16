@@ -16,14 +16,21 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { format } from 'date-fns';
 import koLocale from 'date-fns/locale/ko';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { addReserved, decrement20, increment20 } from '../app/userSlice';
 
 export default function TutorsList(props) {
+  const dispatch = useDispatch()
   const tutors = useSelector((state) => state.tutor);
+  const userID = useSelector((state) => state.user.userID);
+  const num20 = useSelector((state) => state.user.numLessons20);
+  const num40 = useSelector((state) => state.user.numLessons40);
 
   const [gender, setGender] = useState("");
   const [accent, setAccent] = useState("");
   const [majorType, setMajorType] = useState("");
+
+  let eventIDIndex = 1;
 
   const handleGenderChange = (event) => {
     setGender(event.target.value);
@@ -37,8 +44,41 @@ export default function TutorsList(props) {
     setMajorType(event.target.value);
   };
 
-  const handleTutorClick = () => {
-    alert("reservation made")
+  const handleTutorClick = (tutorID, tutorName) => {
+    if (props.eventType === 20 && num20 === 0){
+      alert("수업권이 부족합니다.");
+    }
+    else if (props.eventType === 40 && num40 === 0){
+      alert("수업권이 부족합니다.");
+    }
+    else{
+      if (props.eventType === 20){
+        dispatch(decrement20())
+      }
+      if (props.eventType === 40){
+        dispatch(increment20())
+      }
+
+      const eventID = "E000" + eventIDIndex.toString()
+      eventIDIndex += 1
+      const eventStart = props.selectedRange.from;
+      const eventEnd = new Date(eventStart);
+      eventEnd.setMinutes(eventStart.getMinutes() + props.eventType);
+      
+      const event = {
+        eventID: eventID,
+        eventType: props.eventType,
+        title: "예약 완료",
+        userID: userID,
+        tutorID: tutorID,
+        tutorName: tutorName,
+        start: eventStart.toISOString(),
+        end: eventEnd.toISOString()
+      }
+
+      console.log(event)
+      dispatch(addReserved(event))
+    }
   };
   
   return (
@@ -116,7 +156,9 @@ export default function TutorsList(props) {
         tutors.map(function(tutor, i){
           return(
             <>
-              <ListItem alignItems="flex-start" onClick={handleTutorClick} sx={{ '&:hover': { backgroundColor: '#f0f0f0' }, cursor: 'pointer'}}>
+              <ListItem alignItems="flex-start" onClick={()=>{
+                handleTutorClick(tutor.tutorID, tutor.name)
+                }} sx={{ '&:hover': { backgroundColor: '#f0f0f0' }, cursor: 'pointer'}}>
                 <ListItemAvatar>
                   <Avatar alt={tutor.name} src="/static/images/avatar/1.jpg" />
                 </ListItemAvatar>
