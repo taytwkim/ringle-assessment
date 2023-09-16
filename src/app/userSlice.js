@@ -47,9 +47,9 @@ export const userSlice = createSlice({
     },
     deleteReserved: (state, action) => {
       console.log("User Action: Delete Event " + action.payload);
-      // console.log("Before Action: " + state.reservedLessons.length.toString());
+      console.log("Before Action: " + JSON.stringify(state.reservedLessons));
       state.reservedLessons = state.reservedLessons.filter((lesson, i) => lesson.eventID !== action.payload);
-      // console.log("After Action: " + state.reservedLessons.length.toString());
+      console.log("After Action: " + JSON.stringify(state.reservedLessons));
     }
   },
 })

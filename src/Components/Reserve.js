@@ -15,6 +15,7 @@ function getWeekDays(date){
 
 export default function Reserve(){
   const today = new Date();
+  const [eventIDIndex, setEventIDIndex] = useState(1);
   const [eventType, setEventType] = useState(20);
   const [viewRange, setViewRange] = useState(getWeekDays(today));
   const [selected, setSelected] = useState(false);
@@ -50,6 +51,8 @@ export default function Reserve(){
           {
             selected
             ? <TutorsList
+              eventIDIndex={eventIDIndex}
+              setEventIDIndex={setEventIDIndex}
               eventType={eventType}
               setEventType={setEventType}
               viewRange={viewRange}

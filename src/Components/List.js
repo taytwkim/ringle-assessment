@@ -40,36 +40,34 @@ export default function TutorsList(props) {
   const [accent, setAccent] = useState("");
   const [majorType, setMajorType] = useState("");
 
-  let eventIDIndex = 1;
-
-  // Filter tutors for availability, gender, accent, and major type
-  function filterTutors(){
-    const filtered = [];
-    
-    for (let i = 0; i < tutors.length; i++){
-      if (gender !== 0 && gender !== "" && gender !== tutors[i].gender){continue;}
-      if (accent !== 0 && accent !== "" && accent !== tutors[i].accent){continue;}
-      if (majorType !== 0 && majorType !== "" && majorType !== tutors[i].majorType){continue;}
-      
-      if (tutors[i].available.length > 0){
-        let available = false;
-        for (let j = 0; j < tutors[i].available.length; j++){
-          if (checkAvailable(props.selectedRange, tutors[i].available[j])){
-            available = true
-            break;
-          }
-        }
-        if (!available){continue;}
-      }
-
-      filtered.push(tutors[i]);
-    }
-    setTutorsFiltered(filtered);
-  }
-  
   useEffect(()=>{
+    // Filter tutors for availability, gender, accent, and major type
+    function filterTutors(){
+      const filtered = [];
+      
+      for (let i = 0; i < tutors.length; i++){
+        if (gender !== 0 && gender !== "" && gender !== tutors[i].gender){continue;}
+        if (accent !== 0 && accent !== "" && accent !== tutors[i].accent){continue;}
+        if (majorType !== 0 && majorType !== "" && majorType !== tutors[i].majorType){continue;}
+        
+        if (tutors[i].available.length > 0){
+          let available = false;
+          for (let j = 0; j < tutors[i].available.length; j++){
+            if (checkAvailable(props.selectedRange, tutors[i].available[j])){
+              available = true
+              break;
+            }
+          }
+          if (!available){continue;}
+        }
+
+        filtered.push(tutors[i]);
+      }
+      setTutorsFiltered(filtered);
+    }
+
     setLoading(true);
-    filterTutors();
+    filterTutors()
     setLoading(false);
   }, [tutors, gender, accent, majorType, props.selectedRange]);
   
@@ -101,8 +99,9 @@ export default function TutorsList(props) {
         dispatch(decrement40());
       }
 
-      const eventID = "E000" + eventIDIndex.toString();
-      eventIDIndex += 1;
+      const eventID = "E000" + props.eventIDIndex.toString();
+      props.setEventIDIndex(props.eventIDIndex + 1);
+
       const eventStart = props.selectedRange.from;
       const eventEnd = new Date(eventStart);
       eventEnd.setMinutes(eventStart.getMinutes() + props.eventType);
