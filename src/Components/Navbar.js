@@ -14,11 +14,12 @@ import { useSelector } from 'react-redux';
 export default function Navbar(props) {
   const num20 = useSelector((state) => state.user.numLessons20);
   const num40 = useSelector((state) => state.user.numLessons40);
+  const reservedLessons = useSelector((state) => state.user.reservedLessons);
   
   const handleChange = (event) => {
     props.setEventType(event.target.value);
   };
-
+  
   return (
       <AppBar position="static" sx={{ paddingTop: 1.5, paddingBottom: 1, backgroundColor: 'white', boxShadow: 'none', borderBottom: '1px solid lightgray' }}>
         <Toolbar>
@@ -45,6 +46,10 @@ export default function Navbar(props) {
               </Select>
             </FormControl>
           </Box>
+
+          <Typography variant="body2" component="div" sx={{ ml: 5, color: 'black'}}>
+            예약 신청한 수업: {reservedLessons.length}
+          </Typography>
         </Toolbar>
       </AppBar>
   );

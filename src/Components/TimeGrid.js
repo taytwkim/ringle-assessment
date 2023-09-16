@@ -16,6 +16,7 @@ import koLocale from 'date-fns/locale/ko';
 import { format } from 'date-fns';
 import '../App.css';
 import { increment20, deleteReserved, increment40 } from '../app/userSlice';
+import { tutorDeleteReserved } from '../app/tutorSlice';
 
 // Return the start and end dates of the week
 function getWeekDays(date){
@@ -127,6 +128,21 @@ const modalStyle = {
 function BasicModal(props){
   const dispatch = useDispatch()
 
+  const handleEventClick = (tutorID, event) => {
+    if(props.clickedEvent.extendedProps.eventType === 20){
+      dispatch(increment20());
+    }
+    else if (props.clickedEvent.extendedProps.eventType === 40){
+      dispatch(increment40());
+    }
+    dispatch(deleteReserved(props.clickedEvent.extendedProps.eventID));
+    dispatch(tutorDeleteReserved({
+      tutorID: props.clickedEvent.extendedProps.tutorID, 
+      eventID: props.clickedEvent.extendedProps.eventID, 
+    }))
+    props.setOpenModal(false);
+  };
+
   return(
     <div>
     <Modal
@@ -159,14 +175,7 @@ function BasicModal(props){
             취소
           </Button>
           <Button variant="outlined" color='error' onClick={()=>{
-            if(props.clickedEvent.extendedProps.eventType === 20){
-              dispatch(increment20())
-            }
-            else if (props.clickedEvent.extendedProps.eventType === 40){
-              dispatch(increment40())
-            }
-            dispatch(deleteReserved(props.clickedEvent.extendedProps.eventID))
-            props.setOpenModal(false)
+            handleEventClick();
           }}>
             삭제
           </Button>

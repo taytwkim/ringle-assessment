@@ -54,6 +54,7 @@ export default function Reserve(){
               setEventType={setEventType}
               viewRange={viewRange}
               setViewRange={setViewRange}
+              setSelected={setSelected}
               selectedRange={selectedRange}
               setSelectedRange={setSelectedRange}
             />

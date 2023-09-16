@@ -30,6 +30,6 @@
     "gender": "F",
     "accent": "American",
     "acceptanceRate": 100,
-    "reserveLessons": []
+    "reservedLessons": []
   }
 ]

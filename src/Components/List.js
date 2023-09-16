@@ -17,7 +17,8 @@ import Select from '@mui/material/Select';
 import { format } from 'date-fns';
 import koLocale from 'date-fns/locale/ko';
 import { useSelector, useDispatch } from 'react-redux'
-import { addReserved, decrement20, increment20 } from '../app/userSlice';
+import { addReserved, decrement20, decrement40 } from '../app/userSlice';
+import { tutorAddReserved } from '../app/tutorSlice';
 
 export default function TutorsList(props) {
   const dispatch = useDispatch()
@@ -44,7 +45,7 @@ export default function TutorsList(props) {
     setMajorType(event.target.value);
   };
 
-  const handleTutorClick = (tutorID, tutorName) => {
+  const handleTutorClick = (tutorIndex, tutorID, tutorName) => {
     if (props.eventType === 20 && num20 === 0){
       alert("수업권이 부족합니다.");
     }
@@ -56,7 +57,7 @@ export default function TutorsList(props) {
         dispatch(decrement20())
       }
       if (props.eventType === 40){
-        dispatch(increment20())
+        dispatch(decrement40())
       }
 
       const eventID = "E000" + eventIDIndex.toString()
@@ -74,10 +75,14 @@ export default function TutorsList(props) {
         tutorName: tutorName,
         start: eventStart.toISOString(),
         end: eventEnd.toISOString()
-      }
+      };
 
-      console.log(event)
-      dispatch(addReserved(event))
+      dispatch(addReserved(event));
+      dispatch(tutorAddReserved({
+        tutorIndex: tutorIndex,
+        event: event 
+      }))
+      props.setSelected(false);
     }
   };
   
@@ -157,7 +162,7 @@ export default function TutorsList(props) {
           return(
             <>
               <ListItem alignItems="flex-start" onClick={()=>{
-                handleTutorClick(tutor.tutorID, tutor.name)
+                handleTutorClick(i, tutor.tutorID, tutor.name)
                 }} sx={{ '&:hover': { backgroundColor: '#f0f0f0' }, cursor: 'pointer'}}>
                 <ListItemAvatar>
                   <Avatar alt={tutor.name} src="/static/images/avatar/1.jpg" />

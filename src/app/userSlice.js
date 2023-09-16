@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+
 /*
 {
   "userID": "U0001",
@@ -24,28 +25,40 @@ export const userSlice = createSlice({
   initialState: userInitialState,
   reducers: {
     increment20: (state) => {
-      console.log("Increment 20")
-      state.numLessons20 += 1
+      console.log("User Action: Increment 20");
+      // console.log("Before Action: " + state.numLessons20.toString());
+      state.numLessons20 += 1;
+      // console.log("After Action: " + state.numLessons20.toString());
     },
     decrement20: (state) => {
-      console.log("Decrement 20")
-      state.numLessons20 -= 1
+      console.log("User Action: Decrement 20");
+      // console.log("Before Action: " + state.numLessons20.toString());
+      state.numLessons20 -= 1;
+      // console.log("After Action: " + state.numLessons20.toString());
     },
     increment40: (state) => {
-      console.log("Increment 40")
-      state.numLessons40 += 1
+      console.log("User Action: Increment 40");
+      // console.log("Before Action: " + state.numLessons40.toString());
+      state.numLessons40 += 1;
+      // console.log("After Action: " + state.numLessons40.toString());
     },
     decrement40: (state) => {
-      console.log("Decrement 40")
-      state.numLessons40 -= 1
+      console.log("User Action: Decrement 40");
+      // console.log("Before Action: " + state.numLessons40.toString());
+      state.numLessons40 -= 1;
+      // console.log("After Action: " + state.numLessons40.toString());
     },
     addReserved: (state, action) => {
-      console.log("User: Add New Event")
-      state.reservedLessons.push(action.payload)
+      console.log("User Action: Add Event " + action.payload.eventID);
+      // console.log("Before Action: " + state.reservedLessons.length.toString());
+      state.reservedLessons.push(action.payload);
+      // console.log("After Action: " + state.reservedLessons.length.toString());
     },
     deleteReserved: (state, action) => {
-      console.log("User: Delete Event")
-      state.reservedLessons = state.reservedLessons.filter((lesson, i) => lesson.eventID !== action.payload)
+      console.log("User Action: Delete Event " + action.payload);
+      // console.log("Before Action: " + state.reservedLessons.length.toString());
+      state.reservedLessons = state.reservedLessons.filter((lesson, i) => lesson.eventID !== action.payload);
+      // console.log("After Action: " + state.reservedLessons.length.toString());
     }
   },
 })
