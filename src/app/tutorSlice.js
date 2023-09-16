@@ -72,7 +72,7 @@ export const tutorSlice = createSlice({
       // console.log("After Action: " + state[tutorIndex].reservedLessons.length.toString());
       
       /* Update available time 
-       * Since an event has been deleted, set the time range as available.
+       * Since an event has been deleted, set the corresponding time range as available.
        */
       if(state[tutorIndex].available.length > 0){
         console.log("Tutor Action: Update Available Time for tutor " + state[tutorIndex].tutorID);

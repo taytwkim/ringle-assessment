@@ -15,9 +15,9 @@ function getWeekDays(date){
 
 export default function Reserve(){
   const today = new Date();
-  const [eventType, setEventType] = useState(20)
+  const [eventType, setEventType] = useState(20);
   const [viewRange, setViewRange] = useState(getWeekDays(today));
-  const [selected, setSelected] = useState(false)
+  const [selected, setSelected] = useState(false);
   const [selectedRange, setSelectedRange] = useState({from: today, to: today});
 
   return(

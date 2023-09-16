@@ -21,25 +21,28 @@ import { useSelector, useDispatch } from 'react-redux'
 import { addReserved, decrement20, decrement40 } from '../app/userSlice';
 import { tutorAddReserved } from '../app/tutorSlice';
 
+// check if selected range is within available range
+// Note that the dates are type string
 function checkAvailable(selectedRange, availableRange){
   return new Date(availableRange.start) <= selectedRange.from && selectedRange.to <= new Date(availableRange.end);
 }
 
 export default function TutorsList(props) {
-  const dispatch = useDispatch()
-  const tutors = useSelector((state) => state.tutor);
+  const dispatch = useDispatch();
+  const tutors = useSelector((state) => state.tutor); // list of every tutor (not filtered)
   const userID = useSelector((state) => state.user.userID);
   const num20 = useSelector((state) => state.user.numLessons20);
   const num40 = useSelector((state) => state.user.numLessons40);
 
   const [loading, setLoading] = useState("false");
-  const [tutorsFiltered, setTutorsFiltered] = useState(tutors);
+  const [tutorsFiltered, setTutorsFiltered] = useState(tutors); // list of tutors that meet the condtions
   const [gender, setGender] = useState("");
   const [accent, setAccent] = useState("");
   const [majorType, setMajorType] = useState("");
 
   let eventIDIndex = 1;
 
+  // Filter tutors for availability, gender, accent, and major type
   function filterTutors(){
     const filtered = [];
     
@@ -82,6 +85,7 @@ export default function TutorsList(props) {
     setMajorType(event.target.value);
   };
 
+  // Add new event when a tutor is clicked
   const handleTutorClick = (tutorIndex, tutorID, tutorName) => {
     if (props.eventType === 20 && num20 === 0){
       alert("수업권이 부족합니다.");
