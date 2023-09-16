@@ -46,8 +46,8 @@
     "acceptanceRate": 100,
     "reservedLessons": [],
     "available": [{
-      "start": "Wed Sep 20 2023 00:00:00 GMT+0900 (Korean Standard Time)",
-      "end": "Wed Sep 20 2023 23:59:59 GMT+0900 (Korean Standard Time)"
+      "start": "2023-09-19T15:00:00.000Z",
+      "end": "2023-09-20T14:59:59.000Z"
     }]
   }
 ]

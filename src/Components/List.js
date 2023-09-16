@@ -22,7 +22,7 @@ import { addReserved, decrement20, decrement40 } from '../app/userSlice';
 import { tutorAddReserved } from '../app/tutorSlice';
 
 function checkAvailable(selectedRange, availableRange){
-  return new Date(availableRange.start) <= selectedRange.from && selectedRange.to <=new Date(availableRange.end);
+  return new Date(availableRange.start) <= selectedRange.from && selectedRange.to <= new Date(availableRange.end);
 }
 
 export default function TutorsList(props) {
@@ -52,7 +52,6 @@ export default function TutorsList(props) {
         let available = false;
         for (let j = 0; j < tutors[i].available.length; j++){
           if (checkAvailable(props.selectedRange, tutors[i].available[j])){
-            console.log("here2")
             available = true
             break;
           }
@@ -92,14 +91,14 @@ export default function TutorsList(props) {
     }
     else{
       if (props.eventType === 20){
-        dispatch(decrement20())
+        dispatch(decrement20());
       }
       if (props.eventType === 40){
-        dispatch(decrement40())
+        dispatch(decrement40());
       }
 
-      const eventID = "E000" + eventIDIndex.toString()
-      eventIDIndex += 1
+      const eventID = "E000" + eventIDIndex.toString();
+      eventIDIndex += 1;
       const eventStart = props.selectedRange.from;
       const eventEnd = new Date(eventStart);
       eventEnd.setMinutes(eventStart.getMinutes() + props.eventType);

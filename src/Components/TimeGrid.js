@@ -138,7 +138,9 @@ function BasicModal(props){
     dispatch(deleteReserved(props.clickedEvent.extendedProps.eventID));
     dispatch(tutorDeleteReserved({
       tutorID: props.clickedEvent.extendedProps.tutorID, 
-      eventID: props.clickedEvent.extendedProps.eventID, 
+      eventID: props.clickedEvent.extendedProps.eventID,
+      eventStart: props.clickedEvent.start.toISOString(),
+      eventEnd: props.clickedEvent.end.toISOString()
     }))
     props.setOpenModal(false);
   };
