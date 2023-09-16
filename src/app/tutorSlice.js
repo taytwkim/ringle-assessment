@@ -2,15 +2,19 @@ import { createSlice } from '@reduxjs/toolkit'
 
 /*
   {
-    "tutorID": "T0001",
-    "name": "Dominic",
-    "school": "University of Oxford",
-    "majorType": "인문계",
-    "major": "Japanese and Korean Studies",
-    "gender": "M",
-    "accent": "British",
+    "tutorID": "T0004",
+    "name": "Tim",
+    "school": "Dartmouth College",
+    "majorType": 3,
+    "major": "Computer Science",
+    "gender": 1,
+    "accent": 1,
     "acceptanceRate": 100,
-    "reservedLessons": []
+    "reservedLessons": [],
+    "available": [{
+      "start": "2023-09-20T00:00:00",
+      "end": "2023-09-20T23:59:59"
+    }]
   }
 */
 
@@ -29,7 +33,7 @@ export const tutorSlice = createSlice({
       // console.log("After Action: " + state[i].reservedLessons.length.toString());
     },
     tutorDeleteReserved: (state, action) => {
-      console.log("Tutor Action: Delete Event " + action.payload.eventID);
+      console.log("Tutor Action: Delete Event " + action.payload.eventID + " from tutor " + action.payload.tutorID);
       
       let tutorIndex = 0
       for (let i; i < state.length; i++) {

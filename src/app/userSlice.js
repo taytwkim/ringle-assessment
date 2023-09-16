@@ -5,16 +5,7 @@ import { createSlice } from '@reduxjs/toolkit'
   "userID": "U0001",
   "numLessons20": 1,
   "numLessons40": 1,
-  "reservedLessons": [{
-    "eventID": "E0001",
-    "eventType": 40,
-    "title": "예약 완료",
-    "userID": 0,
-    "tutorID": 0,
-    "tutorName": "Dominic",
-    "start": "2023-09-16T10:00:00",
-    "end": "2023-09-16T10:40:00"
-  }]
+  "reservedLessons": []
 }
 */
 

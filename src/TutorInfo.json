@@ -3,33 +3,51 @@
     "tutorID": "T0001",
     "name": "Dominic",
     "school": "University of Oxford",
-    "majorType": "인문계",
+    "majorType": 2,
     "major": "Japanese and Korean Studies",
-    "gender": "M",
-    "accent": "British",
+    "gender": 2,
+    "accent": 2,
     "acceptanceRate": 100,
-    "reservedLessons": []
+    "reservedLessons": [],
+    "available": []
   },
   {
     "tutorID": "T0002",
     "name": "Bao",
     "school": "Yale University",
-    "majorType": "인문계",
+    "majorType": 2,
     "major": "Ethnicity, Race, and Migration",
-    "gender": "M",
-    "accent": "American",
+    "gender": 2,
+    "accent": 1,
     "acceptanceRate": 100,
-    "reservedLessons": []
+    "reservedLessons": [],
+    "available": []
   },
   {
     "tutorID": "T0003",
     "name": "Aadhya",
     "school": "New York University",
-    "majorType": "사회과학경영",
+    "majorType": 1,
     "major": "Finance",
-    "gender": "F",
-    "accent": "American",
+    "gender": 1,
+    "accent": 1,
     "acceptanceRate": 100,
-    "reservedLessons": []
+    "reservedLessons": [],
+    "available": []
+  },
+  {
+    "tutorID": "T0004",
+    "name": "Tim",
+    "school": "Dartmouth College",
+    "majorType": 3,
+    "major": "Computer Science",
+    "gender": 2,
+    "accent": 1,
+    "acceptanceRate": 100,
+    "reservedLessons": [],
+    "available": [{
+      "start": "Wed Sep 20 2023 00:00:00 GMT+0900 (Korean Standard Time)",
+      "end": "Wed Sep 20 2023 23:59:59 GMT+0900 (Korean Standard Time)"
+    }]
   }
 ]

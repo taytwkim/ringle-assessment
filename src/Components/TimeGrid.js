@@ -97,7 +97,7 @@ export default function TimeGrid(props){
         }}
         scrollTimeReset={false}
         validRange={{ 
-          start: today 
+          start: today
         }}
         slotDuration={'0:30:00'}
         snapDuration={'1:00:00'} // change to 30 min
@@ -106,7 +106,7 @@ export default function TimeGrid(props){
         selectAllow={selectAllow}
         select={handleSelect}
         events={reservedLessons}
-        displayEventEnd={false}s
+        displayEventEnd={false}
         eventClick={handleEventClick}
       />
     </div>
@@ -128,7 +128,7 @@ const modalStyle = {
 function BasicModal(props){
   const dispatch = useDispatch()
 
-  const handleEventClick = (tutorID, event) => {
+  const handleEventClick = () => {
     if(props.clickedEvent.extendedProps.eventType === 20){
       dispatch(increment20());
     }

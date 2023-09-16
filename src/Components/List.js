@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -14,11 +14,16 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import CircularProgress from '@mui/material/CircularProgress';
 import { format } from 'date-fns';
 import koLocale from 'date-fns/locale/ko';
 import { useSelector, useDispatch } from 'react-redux'
 import { addReserved, decrement20, decrement40 } from '../app/userSlice';
 import { tutorAddReserved } from '../app/tutorSlice';
+
+function checkAvailable(selectedRange, availableRange){
+  return new Date(availableRange.start) <= selectedRange.from && selectedRange.to <=new Date(availableRange.end);
+}
 
 export default function TutorsList(props) {
   const dispatch = useDispatch()
@@ -27,12 +32,45 @@ export default function TutorsList(props) {
   const num20 = useSelector((state) => state.user.numLessons20);
   const num40 = useSelector((state) => state.user.numLessons40);
 
+  const [loading, setLoading] = useState("false");
+  const [tutorsFiltered, setTutorsFiltered] = useState(tutors);
   const [gender, setGender] = useState("");
   const [accent, setAccent] = useState("");
   const [majorType, setMajorType] = useState("");
 
   let eventIDIndex = 1;
 
+  function filterTutors(){
+    const filtered = [];
+    
+    for (let i = 0; i < tutors.length; i++){
+      if (gender !== 0 && gender !== "" && gender !== tutors[i].gender){continue;}
+      if (accent !== 0 && accent !== "" && accent !== tutors[i].accent){continue;}
+      if (majorType !== 0 && majorType !== "" && majorType !== tutors[i].majorType){continue;}
+      
+      if (tutors[i].available.length > 0){
+        let available = false;
+        for (let j = 0; j < tutors[i].available.length; j++){
+          if (checkAvailable(props.selectedRange, tutors[i].available[j])){
+            console.log("here2")
+            available = true
+            break;
+          }
+        }
+        if (!available){continue;}
+      }
+
+      filtered.push(tutors[i]);
+    }
+    setTutorsFiltered(filtered);
+  }
+  
+  useEffect(()=>{
+    setLoading(true);
+    filterTutors();
+    setLoading(false);
+  }, [tutors, gender, accent, majorType, props.selectedRange]);
+  
   const handleGenderChange = (event) => {
     setGender(event.target.value);
   };
@@ -154,11 +192,18 @@ export default function TutorsList(props) {
         </ButtonGroup>
       </Box>
       
-      <Typography variant='body2' sx={{marginTop:2}}>선택한 시간에 수업 가능한 튜터들입니다.</Typography>
+      {
+        tutorsFiltered.length === 0
+        ? <Typography variant='body2' sx={{marginTop:2}}>수업 가능한 튜터가 없습니다.</Typography>
+        : <Typography variant='body2' sx={{marginTop:2}}>선택한 시간에 수업 가능한 튜터들입니다.</Typography>
+      }
 
+      {
+      loading 
+      ? <Box sx={{ mt: 7, textAlign: 'center' }}><CircularProgress /></Box> :
       <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
         {
-        tutors.map(function(tutor, i){
+        tutorsFiltered.map(function(tutor, i){
           return(
             <>
               <ListItem alignItems="flex-start" onClick={()=>{
@@ -195,6 +240,7 @@ export default function TutorsList(props) {
         })
         }
       </List>
+      }
     </div>
   );
 }

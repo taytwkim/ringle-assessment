@@ -60,7 +60,9 @@ export default function Reserve(){
             />
             :
             <div style={{textAlign: 'center'}}>
-              <Typography variant='body2' sx={{mt: 1.5}}>캘린더에서 원하시는 시간을 눌러 수업을 신청해 주세요.</Typography>
+              <Typography variant='body2' sx={{mt: 1.5}}>
+                캘린더에서 원하시는 시간을 눌러 수업을 신청해 주세요.
+              </Typography>
             </div>
           }
         </div>

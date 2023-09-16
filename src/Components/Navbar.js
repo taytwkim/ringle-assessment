@@ -21,7 +21,7 @@ export default function Navbar(props) {
   };
   
   return (
-      <AppBar position="static" sx={{ paddingTop: 1.5, paddingBottom: 1, backgroundColor: 'white', boxShadow: 'none', borderBottom: '1px solid lightgray' }}>
+      <AppBar position="sticky" sx={{ paddingTop: 1.5, paddingBottom: 1, backgroundColor: 'white', boxShadow: 'none', borderBottom: '1px solid lightgray' }}>
         <Toolbar>
           <Button variant="outlined" startIcon={<ArrowBackIosNewIcon />}>
             나가기
