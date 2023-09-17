@@ -37,7 +37,7 @@ export const tutorSlice = createSlice({
        */
       if(state[i].available.length > 0){
         console.log("Tutor Action: Update Available Time");
-        console.log("Before Update: " + JSON.stringify(state[i].available) + " for tutor " + state[i].tutorID);
+        // console.log("Before Update: " + JSON.stringify(state[i].available) + " for tutor " + state[i].tutorID);
         
         const eventStart = new Date(action.payload.event.start);
         const eventEnd = new Date(action.payload.event.end);
@@ -53,7 +53,7 @@ export const tutorSlice = createSlice({
             break;
           }
         }
-        console.log("After Update: " + JSON.stringify(state[i].available) + " for tutor " + state[i].tutorID);
+        // console.log("After Update: " + JSON.stringify(state[i]));
       }
     },
     tutorDeleteReserved: (state, action) => {
@@ -76,13 +76,10 @@ export const tutorSlice = createSlice({
        */
       if(state[tutorIndex].available.length > 0){
         console.log("Tutor Action: Update Available Time for tutor " + state[tutorIndex].tutorID);
-        console.log("Before Update: " + JSON.stringify(state[tutorIndex].available));
+        // console.log("Before Update: " + JSON.stringify(state[tutorIndex].available));
         
         const eventStart = new Date(action.payload.eventStart);
         const eventEnd = new Date(action.payload.eventEnd);
-        
-        console.log(eventStart);
-        console.log(eventEnd);
         
         let start = eventStart;
         let end = eventEnd;
@@ -91,9 +88,6 @@ export const tutorSlice = createSlice({
         for(let j = 0; j < state[tutorIndex].available.length; j++){
           const availableStart = new Date(state[tutorIndex].available[j].start);
           const availableEnd = new Date(state[tutorIndex].available[j].end);
-
-          //console.log(availableStart);
-          //console.log(availableEnd);
 
           if (availableEnd.getTime() === eventStart.getTime()){
             start = availableStart;
@@ -109,7 +103,7 @@ export const tutorSlice = createSlice({
         updated.push({start: start.toISOString(), end: end.toISOString()});
         state[tutorIndex].available = updated;
         
-        console.log("After Update: " + JSON.stringify(state[tutorIndex].available));
+        // console.log("After Update: " + JSON.stringify(state[tutorIndex]));
       }
     }
   },

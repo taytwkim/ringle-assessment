@@ -41,15 +41,19 @@ export const userSlice = createSlice({
     },
     addReserved: (state, action) => {
       console.log("User Action: Add Event " + action.payload.eventID);
-      // console.log("Before Action: " + state.reservedLessons.length.toString());
+      // console.log("Before Action: " + JSON.stringify(state.reservedLessons));
+      
       state.reservedLessons.push(action.payload);
-      // console.log("After Action: " + state.reservedLessons.length.toString());
+      
+      // console.log("After Action: " + JSON.stringify(state.reservedLessons));
     },
     deleteReserved: (state, action) => {
       console.log("User Action: Delete Event " + action.payload);
-      console.log("Before Action: " + JSON.stringify(state.reservedLessons));
+      // console.log("Before Action: " + JSON.stringify(state.reservedLessons));
+      
       state.reservedLessons = state.reservedLessons.filter((lesson, i) => lesson.eventID !== action.payload);
-      console.log("After Action: " + JSON.stringify(state.reservedLessons));
+      
+      // console.log("After Action: " + JSON.stringify(state.reservedLessons));
     }
   },
 })

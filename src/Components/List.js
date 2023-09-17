@@ -117,6 +117,8 @@ export default function TutorsList(props) {
         end: eventEnd.toISOString()
       };
 
+      // console.log(JSON.stringify(event));
+      
       dispatch(addReserved(event));
       dispatch(tutorAddReserved({
         tutorIndex: tutorIndex,
@@ -134,7 +136,7 @@ export default function TutorsList(props) {
       <Typography variant='h7'>튜터 직접 선택</Typography>
 
       <Box sx={{marginTop:2}}>
-        <FormControl sx={{height: 15, width: 100}}>
+        <FormControl sx={{height: 15, width: 90}}>
           <InputLabel id="demo-simple-select-disabled-label">성별</InputLabel>
           <Select
             sx = {{height: 50}}
@@ -150,7 +152,7 @@ export default function TutorsList(props) {
           </Select>
         </FormControl>
 
-        <FormControl sx={{width: 100}}>
+        <FormControl sx={{width: 90}}>
           <InputLabel id="demo-simple-select-error-label">억양</InputLabel>
           <Select
             sx = {{height: 50}}
@@ -166,7 +168,7 @@ export default function TutorsList(props) {
           </Select>
         </FormControl>
 
-        <FormControl sx={{width: 100}}>
+        <FormControl sx={{width: 90}}>
           <InputLabel id="demo-simple-select-readonly-label">전공</InputLabel>
           <Select
             sx = {{height: 50}}
